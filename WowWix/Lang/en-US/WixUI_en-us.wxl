@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization" Codepage="1252">
+  <String Id="LANG">1033</String>
+  <String Id="Culture">en-us</String>
+  <String Id="ProductName">WowPad</String>
+  <String Id="ProductShorcutName">WowPad</String>
+  <String Id="LicenseRtf" Overridable="yes">\Lang\en-us\EULA_en-us.rtf</String>
+  <String Id="ManufacturerShortName">Velostep</String>
+  <String Id="ManufacturerName">Velostep Inc.</String>
+  <String Id="ManufacturerProductName">Velostep WowPad</String>
+  <String Id="LaunchAfterInstalled">Launch WowPad</String>
+  <String Id="UninstallName">Uninstall WowPad</String>
+  <String Id="UninstallDescription">Uninstalls Velostep WowPad</String>
+  <String Id="AppNotSupported">Velostep WowPad is not supported on your current OS. Minimal OS supported is  Windows 7</String>
+  <String Id="NewerVersionInstalled">A newer version of WowPad is already installed.</String>
+
+  <String Id="msierrFirewallCannotConnect" Overridable="yes">Cannot connect to Windows Firewall.  ([2]   [3]   [4]   [5])</String>
+  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Configuring Windows Firewall</String>
+  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Configuring Windows Firewall</String>
+  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">Rolling back Windows Firewall configuration</String>
+  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">Installing Windows Firewall configuration</String>
+  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">Rolling back Windows Firewall configuration</String>
+  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">Uninstalling Windows Firewall configuration</String>
+
+  <String Id="ProgressTextCostFinalize" Overridable="yes">Computing space requirements</String>
+  <String Id="ProgressTextCostInitialize" Overridable="yes">Computing space requirements</String>
+
+</WixLocalization>

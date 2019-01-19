@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="ko-kr" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="LANG">1042</String>
+  <String Id="Culture">ko-kr</String>
+  <String Id="ProductName">WowPad</String>
+  <String Id="ProductShorcutName">와우패드</String>
+  <String Id="LicenseRtf" Overridable="yes">\Lang\ko-kr\EULA_ko-kr.rtf</String>
+  <String Id="ManufacturerShortName">Velostep</String>
+  <String Id="ManufacturerName">Velostep Inc.</String>
+  <String Id="ManufacturerProductName">Velostep WowPad</String>
+  <String Id="LaunchAfterInstalled">와우패드 실행</String>
+  <String Id="UninstallName">와우패드 제거</String>
+  <String Id="UninstallDescription">와우패드를 제거합니다.</String>
+  <String Id="AppNotSupported">Velostep 와우패드를 설치하기 위해서는 Windows 7 이상의 운영체제가 필요합니다.</String>
+  <String Id="NewerVersionInstalled">최신버전의 와우패드가 이미 설치되어 있습니다.</String>
+  
+  <String Id="msierrFirewallCannotConnect" Overridable="yes">Windows 방화벽에 연결할 수 없습니다.  ([2]   [3]   [4]   [5])</String>
+  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Windows 방화벽 구성</String>
+  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Windows 방화벽 구성</String>
+  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">Windows 방화벽 구성 복원</String>
+  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">Windows 방화벽 구성을 설치</String>
+  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">Windows 방화벽 구성을 복원</String>
+  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">Windows 방화벽 구성을 제거</String>
+
+  <String Id="ProgressTextCostFinalize" Overridable="yes">필요한 디스크 공간을 계산중입니다</String>
+  <String Id="ProgressTextCostInitialize" Overridable="yes">필요한 디스크 공간을 계산중입니다</String>
+
+</WixLocalization>

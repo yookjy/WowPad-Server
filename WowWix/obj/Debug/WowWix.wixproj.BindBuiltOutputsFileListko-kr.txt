@@ -1,0 +1,2 @@
+D:\Project\C++\WowPad\WowWix\bin\Debug\ko-kr\WowPad.msi
+D:\Project\C++\WowPad\WowWix\bin\Debug\ko-kr\WowPad.wixpdb

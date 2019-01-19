@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:fire="http://schemas.microsoft.com/wix/FirewallExtension">
+  
+  <Product Id="*" Name="!(loc.ProductName)" Language="1033" Version="2.0.7.0" Manufacturer="!(loc.ManufacturerName)" UpgradeCode="3ba43955-59a8-40fa-960e-53e1ccddbce4">
+    <Package Id="*" InstallerVersion="405" Compressed="yes" InstallScope="perMachine" Description="!(loc.ManufacturerName) (loc.ProductName) 2.0.7 Installer"
+             Comments="!(loc.ProductName) is a registered trademark of !(loc.ManufacturerName)" Manufacturer="!(loc.ManufacturerName)" />   
+    
+    <!-- Set Your Installer's Icon in Add/Remove Programs -->
+    <Icon Id="AppIcon" SourceFile="$(var.WowPad.ProjectDir)TrayIcon.ico"/>
+    <Icon Id="DesktopIcon" SourceFile="$(var.WowPad.ProjectDir)WowPad.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="USERGROUP_EVERYONE" Value="Everyone" />
+
+    <!--WixVariable Id="WixUILicenseRtf" Value="$(var.SolutionDir)\WowWix\Lang\!(loc.Culture)\EULA.rtf" /-->
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.SolutionDir)\WowWix\images\TopBanner.bmp"/>
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.SolutionDir)\WowWix\images\Welcome.bmp"/>
+    
+    <MajorUpgrade DowngradeErrorMessage="!(loc.NewerVersionInstalled)" />
+    <!--MediaTemplate /-->
+    <Media Id="1" EmbedCab="yes" Cabinet="WowPad.cab" />
+
+    <Condition Message="!(loc.AppNotSupported)">
+      <![CDATA[Installed OR (VersionNT >= 601)]]>
+    </Condition>
+    
+    <Feature Id="ProductFeature" Title="WowPad" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="AppDataComponents" />
+    </Feature>
+
+    <Feature Id="CRT" Title="Visual C++ 11.0 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+      <MergeRef Id="CRT"/>
+    </Feature>
+
+     <!-- ProgramMenu shortcut -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="4C032C2D-50C5-4301-ADE4-EBABBBEA6CC5">
+        <!-- Step 2: Add the shortcut to your installer package -->
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="!(loc.ProductShorcutName)"
+                  Description="!(loc.ManufacturerProductName)"
+                  Target="[INSTALLFOLDER]WowPad.exe"
+                  WorkingDirectory="INSTALLFOLDER"/>
+        <!-- Step 3: Add the uninstall shortcut to your installer package -->
+        <Shortcut Id="UninstallProduct"
+                  Name="!(loc.UninstallName)"
+                  Description="!(loc.UninstallDescription)"
+                  Target="[System64Folder]msiexec.exe"
+                  Arguments="/x [ProductCode]"/>
+
+        <Shortcut Id="DesktopShortcut" 
+                  Name="!(loc.ProductShorcutName)"
+                  Directory="DesktopFolder" 
+                  Icon="DesktopIcon" 
+                  IconIndex="0"
+                  Target="[INSTALLFOLDER]WowPad.exe"
+                  WorkingDirectory="INSTALLFOLDER" Advertise="no"/>
+
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\!(loc.ManufacturerName)\!(loc.ProductName)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="TARGETDIR">
+      <Component Id="RegistryEntries" Guid="6AAAA287-4EA9-420B-BD0D-85F93E76E4E4">
+        <RegistryKey Root="HKCU" Key="Software\Microsoft\Windows\CurrentVersion\Run" ForceCreateOnInstall="yes">
+          <RegistryValue Type="string" Name="!(loc.ManufacturerProductName)" Value="[INSTALLFOLDER]WowPad.exe" />
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="DRIVERSFOLDER">
+      <Component Id="DriverInstallerEntries" Guid="C10A18D9-954F-4D6F-85F6-6C83F1BB9F14">
+        <!-- 드라이버 인스톨 배치 경로-->
+        <File Id="WowPad.Driver.x86.Installer.Bat" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\installer.bat"></File>
+        <File Id="WowPad.Driver.x86.Uninstaller.Bat" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\uninstaller.bat"></File>
+        <File Id="WowPad.Driver.x64.Installer.Bat" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\installer64.bat"></File>
+        <File Id="WowPad.Driver.x64.Uninstaller.Bat" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\uninstaller64.bat"></File>
+      </Component>     
+    </DirectoryRef>
+
+    <DirectoryRef Id="UTILSFOLDER">
+      <Component Id="DriverUtilEntries" Guid="93C0875D-A7D7-47CA-AB61-F7949D22C1F1">
+        <!-- 드라이버 유틸 경로 -->
+        <File Id="WowPad.DriverUtils.Devcon" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\Utils\devcon.exe"></File>
+        <File Id="WowPad.DriverUtils.DIfxCmd" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\Utils\DIfxCmd.exe"></File>
+        <File Id="WowPad.DriverUtils.Devcon64" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\Utils\devcon64.exe"></File>
+        <File Id="WowPad.DriverUtils.DIfxCmd64" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\Utils\DIfxCmd64.exe"></File>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="X64FOLDER">
+      <Component Id="DriverX86Entries" Guid="AACCA50C-835F-4C1F-861D-710E7F413293">
+        <File Id="WowPad.Driver.x64.Hidkmdfs.Sys" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x64\hidkmdf.sys"></File>
+        <File Id="WowPad.Driver.x64.Vshid.Sys" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x64\vshid.Sys"></File>
+        <File Id="WowPad.Driver.x64.Vshid.Cat" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x64\vshid.Cat"></File>
+        <File Id="WowPad.Driver.x64.Vshid.Inf" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x64\vshid.inf"></File>
+        <File Id="WowPad.Driver.x64.WdfCoinstaller01011.dll" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x64\WdfCoinstaller01011.dll"></File>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="x86FOLDER">
+        <Component Id="DriverX64Entries" Guid="59E36C5D-504E-43F8-A8FB-E70418C25C46">
+        <!-- 드라이버 경로 -->
+        <File Id="WowPad.Driver.x86.Hidkmdfs.Sys" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x86\hidkmdf.sys"></File>
+        <File Id="WowPad.Driver.x86.Vshid.Sys" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x86\vshid.Sys"></File>
+        <File Id="WowPad.Driver.x86.Vshid.Cat" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x86\vshid.Cat"></File>
+        <File Id="WowPad.Driver.x86.Vshid.Inf" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x86\vshid.inf"></File>
+        <File Id="WowPad.Driver.x86.WdfCoinstaller01009.dll" Source="$(var.SolutionDir)\WowDriverInstaller\Drivers\x86\WdfCoinstaller01009.dll"></File>
+      </Component>      
+    </DirectoryRef>
+
+    <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
+    <UI>
+      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" ></Property>
+      <UIRef Id="WixUI_InstallDir"/>
+
+      <!-- BEGIN UI LOGIC FOR CLEAN INSTALLER -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Next" Event="NewDialog" Value="InstallDirDlg">LicenseAcceptedOverwritten = "1" AND NOT OLDER_VERSION_FOUND</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
+      <!-- END UI LOGIC FOR CLEAN INSTALLER -->
+     
+      <Publish Dialog="ExitDialog"
+          Control="Finish"
+          Event="DoAction"
+          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.LaunchAfterInstalled)" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+
+    <!-- Step 3: Include the custom action-->
+    <Property Id="WixShellExecTarget" Value="[#WowPad.exe]" />
+    <!-- 복구모드 비활성화 -->
+    <Property Id="ARPNOREPAIR" Value="yes" Secure="yes" />
+    
+    <CustomAction Id="LaunchApplication"
+        BinaryKey="WixCA"
+        DllEntry="WixShellExec"
+        Impersonate="yes" />
+
+    <CustomAction Id="QtExecDeferredDriver32Install"   ExeCommand="cmd.exe /c &quot;[#WowPad.Driver.x86.Installer.Bat]&quot;"   Directory="DRIVERSFOLDER" Execute="deferred" Return="ignore" Impersonate="no"/>
+    <CustomAction Id="QtExecDeferredDriver32Uninstall" ExeCommand="cmd.exe /c &quot;[#WowPad.Driver.x86.Uninstaller.Bat]&quot;" Directory="DRIVERSFOLDER" Execute="deferred" Return="ignore" Impersonate="no"/>
+    <CustomAction Id="QtExecDeferredDriver64Install"   ExeCommand="cmd.exe /c &quot;[#WowPad.Driver.x64.Installer.Bat]&quot;"   Directory="DRIVERSFOLDER" Execute="deferred" Return="ignore" Impersonate="no"/>
+    <CustomAction Id="QtExecDeferredDriver64Uninstall" ExeCommand="cmd.exe /c &quot;[#WowPad.Driver.x64.Uninstaller.Bat]&quot;" Directory="DRIVERSFOLDER" Execute="deferred" Return="ignore" Impersonate="no"/>
+    
+    <InstallExecuteSequence>
+      <Custom Action="QtExecDeferredDriver32Install"   Before="InstallFinalize"><![CDATA[(NOT Installed OR UPGRADINGPRODUCTCODE) AND NOT VersionNT64]]></Custom>
+      <Custom Action="QtExecDeferredDriver32Uninstall" After="InstallInitialize"><![CDATA[Installed AND NOT VersionNT64]]></Custom>
+      <Custom Action="QtExecDeferredDriver64Install"   Before="InstallFinalize"><![CDATA[(NOT Installed OR UPGRADINGPRODUCTCODE) AND VersionNT64]]></Custom>
+      <Custom Action="QtExecDeferredDriver64Uninstall" After="InstallInitialize"><![CDATA[Installed AND VersionNT64]]></Custom>
+    </InstallExecuteSequence>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <!-- Visual C++ Libaray -->
+      <Merge Id="CRT" SourceFile="$(env.CommonProgramFiles)\Merge Modules\Microsoft_VC110_CRT_x86.msm" DiskId="1" Language="0"/>
+      <!-- Install Path -->
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="INSTALLFOLDER" Name="!(loc.ManufacturerProductName)">
+          <Directory Id="DRIVERSFOLDER" Name="Drivers">
+            <Directory Id="X64FOLDER" Name="x64" />
+            <Directory Id="x86FOLDER" Name="x86" />
+            <Directory Id="UTILSFOLDER" Name="Utils" />
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="CommonAppDataFolder" Name="AData">
+        <Directory Id="MFAPPDATAFOLDER" Name="Velostep">
+          <Directory Id="APPDATAFOLDER" Name="WowPad" />
+        </Directory>
+      </Directory>
+      <!-- Step 1: Define the directory structure -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="!(loc.ManufacturerProductName)"/>
+      </Directory>
+      <Directory Id="DesktopFolder"/>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="{EE0CB72C-4B13-44F0-AD50-E437F05A94F6}">
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Id="WowPad.exe" Source="$(var.WowPad.TargetPath)" KeyPath="yes" >
+          <fire:FirewallException Id="FWX1" Name="!(loc.ProductName)" Scope="any"/>
+        </File>
+        <File Id="WowPad.Language" Source="$(var.SolutionDir)\WowConfig\!(loc.Culture)\Language.ini"></File>
+        <File Id="WowPad.WowWrapper" Source="$(var.WowPad.TargetDir)\WowWrapper.dll"></File>
+        <File Id="WowPad.WowDriver" Source="$(var.WowPad.TargetDir)\WowDriver.dll"></File>
+      </Component>
+      <ComponentRef Id="DriverInstallerEntries"/>
+      <ComponentRef Id="DriverUtilEntries"/>
+      <ComponentRef Id="DriverX86Entries"/>
+      <ComponentRef Id="DriverX64Entries"/>
+      <ComponentRef Id="RegistryEntries" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="AppDataComponents" Directory="APPDATAFOLDER">
+      <Component Id="AppDataComponent" Guid="{4ABFFE97-362F-4406-B995-E9BF8713E825}">
+        <!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Id="WowPad.Config" Source="$(var.SolutionDir)\WowConfig\!(loc.Culture)\Config.ini">
+          <Permission ChangePermission="yes" GenericAll="yes" User="Everyone" TakeOwnership="yes" Write="yes" WriteAttributes="yes" WriteExtendedAttributes="yes" />       
+        </File>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

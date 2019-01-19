@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="ja-jp" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="LANG">1041</String>
+  <String Id="Culture">ja-jp</String>
+  <String Id="ProductName">WowPad</String>
+  <String Id="ProductShorcutName">WowPad</String>
+  <String Id="LicenseRtf" Overridable="yes">\Lang\ja-jp\EULA_ja-jp.rtf</String>
+  <String Id="ManufacturerShortName">Velostep</String>
+  <String Id="ManufacturerName">Velostep Inc.</String>
+  <String Id="ManufacturerProductName">Velostep WowPad</String>
+  <String Id="LaunchAfterInstalled">WowPad 実行</String>
+  <String Id="UninstallName">WowPad 削除</String>
+  <String Id="UninstallDescription">WowPadを削除します。</String>
+  <String Id="AppNotSupported">Velostep WowPadをセットアップするには　Windows 7 以上のOSが必要になります。</String>
+  <String Id="NewerVersionInstalled">既にVelostep WowPadの最新バージョンが セットアップされています。</String>
+
+  <String Id="msierrFirewallCannotConnect" Overridable="yes">Windows ファイアウォールに接続できません。 ([2]   [3]   [4]   [5])</String>
+  <String Id="WixSchedFirewallExceptionsInstall" Overridable="yes">Windows ファイアウォール構成</String>
+  <String Id="WixSchedFirewallExceptionsUninstall" Overridable="yes">Windows ファイアウォール構成</String>
+  <String Id="WixRollbackFirewallExceptionsInstall" Overridable="yes">Windows ファイアウォール構成復元</String>
+  <String Id="WixExecFirewallExceptionsInstall" Overridable="yes">Windows ファイアウォール構成をセットアップ</String>
+  <String Id="WixRollbackFirewallExceptionsUninstall" Overridable="yes">Windows ファイアウォール構成を復元</String>
+  <String Id="WixExecFirewallExceptionsUninstall" Overridable="yes">Windowsファイアウォール構成を削除</String>
+
+  <String Id="ProgressTextCostFinalize" Overridable="yes">必要なディスク領域を計算中です</String>
+  <String Id="ProgressTextCostInitialize" Overridable="yes">必要なディスク領域を計算中です</String>
+
+</WixLocalization>
